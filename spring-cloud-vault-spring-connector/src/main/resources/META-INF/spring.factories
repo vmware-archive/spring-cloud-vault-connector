@@ -1,0 +1,8 @@
+# Bootstrap Configuration
+org.springframework.cloud.bootstrap.BootstrapConfiguration=\
+io.pivotal.spring.cloud.vault.config.java.AppNameBootstrapConfiguration,\
+io.pivotal.spring.cloud.vault.config.java.VaultConnectorBootstrapConfiguration
+
+# Application Listener
+org.springframework.context.ApplicationListener=\
+io.pivotal.spring.cloud.vault.config.java.VaultServiceInfoPropertySourceAdapter

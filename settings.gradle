@@ -1,0 +1,1 @@
+include "spring-cloud-vault-cloudfoundry-connector", "spring-cloud-vault-spring-connector", "spring-cloud-vault-connector-core", "spring-cloud-vault-localconfig-connector"

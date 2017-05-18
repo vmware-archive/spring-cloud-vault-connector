@@ -1,0 +1,194 @@
+description = 'Spring Cloud Connectors for Vault support on CloudFoundry'
+
+buildscript {
+	repositories {
+		maven { url 'https://repo.spring.io/plugins-release' }
+		mavenCentral()
+	}
+
+	dependencies {
+		classpath 'org.springframework.build.gradle:propdeps-plugin:0.0.7'
+		classpath 'org.springframework.build.gradle:spring-io-plugin:0.0.3.RELEASE'
+		classpath("io.spring.gradle:dependency-management-plugin:1.0.2.RELEASE")
+	}
+
+	ext {
+		springBootVersion = "1.5.3.RELEASE"
+		springVaultVersion = "1.1.0.BUILD-SNAPSHOT"
+		springCloudVaultVersion = "1.1.0.BUILD-SNAPSHOT"
+		springCloudConnectorsVersion = "1.2.0.RELEASE"
+		junitVersion = "4.12"
+		assertjVersion = "3.7.0"
+		mockitoVersion = "2.7.22"
+	}
+}
+
+subprojects {
+	apply plugin: 'java'
+	apply from: "${rootProject.projectDir}/publish-maven.gradle"
+	apply plugin: 'eclipse'
+
+	apply plugin: 'propdeps'
+	apply plugin: 'propdeps-maven'
+	apply plugin: 'propdeps-idea'
+	apply plugin: 'propdeps-eclipse'
+	apply plugin: "io.spring.dependency-management"
+
+	compileJava {
+		sourceCompatibility = 1.6
+		targetCompatibility = 1.6
+	}
+	compileTestJava {
+		sourceCompatibility = 1.8
+		targetCompatibility = 1.8
+	}
+
+	if (project.hasProperty('platformVersion')) {
+		apply plugin: 'spring-io'
+
+		// necessary to resolve the Spring IO versions (which may include snapshots)
+		repositories {
+			maven { url "https://repo.spring.io/libs-snapshot" }
+		}
+
+		dependencies {
+			springIoVersions "io.spring.platform:platform-versions:${platformVersion}@properties"
+		}
+	}
+
+	dependencyManagement {
+		imports {
+			mavenBom "org.springframework.boot:spring-boot-dependencies:${springBootVersion}"
+		}
+	}
+
+	dependencies {
+		testCompile("junit:junit:$junitVersion")
+		testCompile("org.assertj:assertj-core:$assertjVersion")
+		testCompile("org.mockito:mockito-core:$mockitoVersion")
+	}
+
+	repositories {
+		maven { url "https://repo.spring.io/libs-snapshot" }
+		mavenCentral()
+	}
+
+	javadoc {
+		options.memberLevel = org.gradle.external.javadoc.JavadocMemberLevel.PROTECTED
+		options.author = true
+		options.header = project.name
+	}
+
+	task packageSources(type: Jar) {
+		classifier = 'sources'
+		from sourceSets.main.allSource
+	}
+
+	task javadocJar(type: Jar) {
+		classifier = "javadoc"
+		from javadoc
+	}
+
+	ext {
+		javadocLinks = [
+				'http://docs.oracle.com/javase/7/docs/api/',
+				'http://docs.oracle.com/javaee/6/api/',
+				'http://docs.spring.io/spring/docs/current/javadoc-api/',
+		] as String[]
+	}
+
+	task api(type: Javadoc) {
+		group = "Documentation"
+		description = "Generates aggregated Javadoc API documentation."
+		title = "${rootProject.description} ${version} API"
+		options.memberLevel = org.gradle.external.javadoc.JavadocMemberLevel.PROTECTED
+		options.author = true
+		options.header = rootProject.description
+		options.links(project.ext.javadocLinks)
+
+		source subprojects.collect { project ->
+			project.sourceSets.main.allJava
+		}
+
+		classpath = files(subprojects.collect { project ->
+			project.sourceSets.main.compileClasspath
+		})
+
+		maxMemory = "1024m"
+		destinationDir = new File(buildDir, "api")
+	}
+
+	task docsZip(type: Zip) {
+		group = 'Distribution'
+		classifier = 'docs'
+		description = "Builds -${classifier} archive containing api and reference " +
+				"for deployment at docs.spring.io/spring-cloud/docs."
+
+		from(api) {
+			into 'api'
+		}
+	}
+
+	artifacts {
+		archives packageSources
+		archives javadocJar
+	}
+
+	task dist(dependsOn: assemble) {
+		group = 'Distribution'
+		description = 'Builds -dist and -docs distribution archives.'
+	}
+}
+
+project(':spring-cloud-vault-connector-core') {
+	archivesBaseName = "spring-cloud-vault-connector-core"
+
+	dependencies {
+		compile("org.springframework.cloud:spring-cloud-core:$springCloudConnectorsVersion")
+	}
+}
+
+project(':spring-cloud-vault-cloudfoundry-connector') {
+	archivesBaseName = "spring-cloud-vault-cloudfoundry-connector"
+
+	dependencies {
+		compile project(':spring-cloud-vault-connector-core')
+		compile("org.springframework.cloud:spring-cloud-cloudfoundry-connector:$springCloudConnectorsVersion")
+		testCompile("org.springframework.cloud:spring-cloud-cloudfoundry-connector:$springCloudConnectorsVersion")
+		testCompile("org.springframework.cloud:spring-cloud-cloudfoundry-connector:$springCloudConnectorsVersion:tests")
+		testCompile("com.fasterxml.jackson.core:jackson-core")
+		testCompile("com.fasterxml.jackson.core:jackson-databind")
+	}
+}
+
+project(':spring-cloud-vault-spring-connector') {
+	archivesBaseName = "spring-cloud-vault-spring-connector"
+
+	dependencies {
+		compile project(':spring-cloud-vault-connector-core')
+		compile("org.springframework.cloud:spring-cloud-spring-service-connector:$springCloudConnectorsVersion")
+		optional("org.springframework.boot:spring-boot-autoconfigure")
+		optional("org.springframework.vault:spring-vault-core:$springVaultVersion")
+		optional("org.springframework.cloud:spring-cloud-vault-config:$springCloudVaultVersion")
+		optional("org.springframework.boot:spring-boot")
+		optional("org.projectlombok:lombok")
+		testCompile("org.springframework.boot:spring-boot-starter-test")
+		testCompile("org.springframework.cloud:spring-cloud-core:$springCloudConnectorsVersion:tests")
+		testCompile("org.springframework.cloud:spring-cloud-cloudfoundry-connector:$springCloudConnectorsVersion")
+		testCompile("org.springframework.cloud:spring-cloud-cloudfoundry-connector:$springCloudConnectorsVersion:tests")
+	}
+}
+
+project(':spring-cloud-vault-localconfig-connector') {
+	archivesBaseName = "spring-cloud-vault-localconfig-connector"
+
+	dependencies {
+		compile project(':spring-cloud-vault-connector-core')
+		compile("org.springframework.vault:spring-vault-core:$springVaultVersion")
+		compile("org.springframework.cloud:spring-cloud-localconfig-connector:$springCloudConnectorsVersion")
+	}
+}
+
+task wrapper(type: Wrapper) {
+	gradleVersion = '3.5'
+}
