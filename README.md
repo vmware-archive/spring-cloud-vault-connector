@@ -1,6 +1,6 @@
-#Spring Cloud Vault Connector
+# Spring Cloud Vault Connector
 
-Spring Cloud Connector for using [HashiCorp's Vault](https://github.com/cloudfoundry-community/vault-boshrelease) service broker on Cloud Foundry.
+Spring Cloud Connector for using [HashiCorp's Vault](https://github.com/hashicorp/cf-vault-service-broker) service broker on Cloud Foundry.
 
 ### Java Applications
 
