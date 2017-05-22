@@ -176,6 +176,7 @@ project(':spring-cloud-vault-spring-connector') {
 		testCompile("org.springframework.cloud:spring-cloud-core:$springCloudConnectorsVersion:tests")
 		testCompile("org.springframework.cloud:spring-cloud-cloudfoundry-connector:$springCloudConnectorsVersion")
 		testCompile("org.springframework.cloud:spring-cloud-cloudfoundry-connector:$springCloudConnectorsVersion:tests")
+		testCompile("commons-logging:commons-logging")
 	}
 }
 
