@@ -14,9 +14,9 @@ buildscript {
 
 	ext {
 		springBootVersion = "1.5.3.RELEASE"
-		springVaultVersion = "1.1.0.BUILD-SNAPSHOT"
-		springCloudVaultVersion = "1.1.0.BUILD-SNAPSHOT"
-		springCloudConnectorsVersion = "1.2.0.RELEASE"
+		springVaultVersion = "1.1.0.M1"
+		springCloudVaultVersion = "1.1.0.M1"
+		springCloudConnectorsVersion = "1.2.4.RELEASE"
 		junitVersion = "4.12"
 		assertjVersion = "3.7.0"
 		mockitoVersion = "2.7.22"
