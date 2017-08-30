@@ -2,6 +2,43 @@
 
 Spring Cloud Connector for using [HashiCorp's Vault](https://github.com/hashicorp/cf-vault-service-broker) service broker on Cloud Foundry.
 
+## Quick Start
+
+### Maven configuration
+
+Add the Maven dependency:
+
+```xml
+<dependency>
+  <groupId>io.pivotal.spring.cloud</groupId>
+  <artifactId>spring-cloud-vault-spring-connector</artifactId>
+  <version>${version}.RELEASE</version>
+</dependency>
+```
+
+If you'd rather like the latest snapshots of the upcoming major version, use our Maven snapshot repository and declare the appropriate dependency version.
+
+```xml
+<dependency>
+  <groupId>io.pivotal.spring.cloud</groupId>
+  <artifactId>spring-cloud-vault-spring-connector</artifactId>
+  <version>${version}.BUILD-SNAPSHOT</version>
+</dependency>
+
+<repository>
+  <id>spring-libs-snapshot</id>
+  <name>Spring Snapshot Repository</name>
+  <url>http://repo.spring.io/libs-snapshot</url>
+</repository>
+```
+
+### Compatibility matrix
+
+Component | Version |
+--- | --- |
+Spring Vault  | 1.1.0.M1 | 
+Spring Cloud Vault  | 1.1.0.M1 | 
+
 ### Java Applications
 
 Applications can use this connector to access the information in `VCAP_SERVICES`
