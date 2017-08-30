@@ -15,6 +15,7 @@
  */
 package io.pivotal.spring.cloud.vault.service;
 
+import java.time.Duration;
 import java.util.Collections;
 
 import io.pivotal.spring.cloud.vault.service.common.VaultServiceInfo;
@@ -51,9 +52,11 @@ public class VaultTemplateCreatorUnitTests {
 	@Test
 	public void shouldCreateVaultTemplateWithConfig() {
 
-		VaultServiceConnectorConfig config = VaultServiceConnectorConfig.builder() //
-				.clientOptions(new ClientOptions(10, 20)) //
-				.sslConfiguration(SslConfiguration.NONE) //
+		VaultServiceConnectorConfig config = VaultServiceConnectorConfig
+				.builder()
+				.clientOptions(
+						new ClientOptions(Duration.ofSeconds(10), Duration.ofSeconds(20))) //
+				.sslConfiguration(SslConfiguration.unconfigured()) //
 				.build();
 
 		VaultServiceInfo serviceInfo = new VaultServiceInfo("vault",

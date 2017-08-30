@@ -80,7 +80,7 @@ public class VaultServiceConnectorConfig implements ServiceConnectorConfig {
 	public static class VaultServiceConnectorConfigBuilder {
 
 		private ClientOptions clientOptions = new ClientOptions();
-		private SslConfiguration sslConfiguration = SslConfiguration.NONE;
+		private SslConfiguration sslConfiguration = SslConfiguration.unconfigured();
 
 		VaultServiceConnectorConfigBuilder() {
 
@@ -102,7 +102,7 @@ public class VaultServiceConnectorConfig implements ServiceConnectorConfig {
 		}
 
 		/**
-		 * Configure {@link SslConfiguration}. Defaults to {@link SslConfiguration#NONE}.
+		 * Configure {@link SslConfiguration}. Defaults to {@link SslConfiguration#unconfigured()}.
 		 *
 		 * @param sslConfiguration must not be {@literal null}.
 		 * @return {@literal this} builder.
