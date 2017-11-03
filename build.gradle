@@ -13,10 +13,10 @@ buildscript {
 	}
 
 	ext {
-		springBootVersion = "2.0.0.M3"
-		springVaultVersion = "2.0.0.M2"
-		springCloudVaultVersion = "2.0.0.M2"
-		springCloudConnectorsVersion = "2.0.0.M1"
+		springBootVersion = "2.0.0.M5"
+		springVaultVersion = "2.0.0.M3"
+		springCloudVaultVersion = "2.0.0.M3"
+		springCloudConnectorsVersion = "2.0.0.RELEASE"
 		junitVersion = "4.12"
 		assertjVersion = "3.7.0"
 		mockitoVersion = "2.7.22"
@@ -158,7 +158,7 @@ project(':spring-cloud-vault-connector-core') {
 	archivesBaseName = "spring-cloud-vault-connector-core"
 
 	dependencies {
-		compile("org.springframework.cloud:spring-cloud-core:$springCloudConnectorsVersion")
+		compile("org.springframework.cloud:spring-cloud-connectors-core:$springCloudConnectorsVersion")
 	}
 }
 
@@ -187,7 +187,7 @@ project(':spring-cloud-vault-spring-connector') {
 		optional("org.springframework.boot:spring-boot")
 		optional("org.projectlombok:lombok")
 		testCompile("org.springframework.boot:spring-boot-starter-test")
-		testCompile("org.springframework.cloud:spring-cloud-core:$springCloudConnectorsVersion:tests")
+		testCompile("org.springframework.cloud:spring-cloud-connectors-core:$springCloudConnectorsVersion:tests")
 		testCompile("org.springframework.cloud:spring-cloud-cloudfoundry-connector:$springCloudConnectorsVersion")
 		testCompile("org.springframework.cloud:spring-cloud-cloudfoundry-connector:$springCloudConnectorsVersion:tests")
 	}
