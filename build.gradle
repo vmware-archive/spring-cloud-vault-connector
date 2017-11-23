@@ -156,6 +156,7 @@ subprojects {
 
 project(':spring-cloud-vault-connector-core') {
 	archivesBaseName = "spring-cloud-vault-connector-core"
+	description = "Spring Cloud Vault Connector Core"
 
 	dependencies {
 		compile("org.springframework.cloud:spring-cloud-core:$springCloudConnectorsVersion")
@@ -164,6 +165,7 @@ project(':spring-cloud-vault-connector-core') {
 
 project(':spring-cloud-vault-cloudfoundry-connector') {
 	archivesBaseName = "spring-cloud-vault-cloudfoundry-connector"
+	description = "Spring Cloud Vault CloudFoundry Connector"
 
 	dependencies {
 		compile project(':spring-cloud-vault-connector-core')
@@ -177,6 +179,7 @@ project(':spring-cloud-vault-cloudfoundry-connector') {
 
 project(':spring-cloud-vault-spring-connector') {
 	archivesBaseName = "spring-cloud-vault-spring-connector"
+	description = "Spring Cloud Vault Spring Connector"
 
 	dependencies {
 		compile project(':spring-cloud-vault-connector-core')
@@ -196,6 +199,7 @@ project(':spring-cloud-vault-spring-connector') {
 
 project(':spring-cloud-vault-localconfig-connector') {
 	archivesBaseName = "spring-cloud-vault-localconfig-connector"
+	description = "Spring Cloud Vault LocalConfig Connector"
 
 	dependencies {
 		compile project(':spring-cloud-vault-connector-core')
