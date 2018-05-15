@@ -36,8 +36,8 @@ If you'd rather like the latest snapshots of the upcoming major version, use our
 
 Component | Version |
 --- | --- |
-Spring Vault  | 2.0.0.RC1 | 
-Spring Cloud Vault  | 2.0.0.M4 | 
+Spring Vault  | 2.x | 
+Spring Cloud Vault  | 2.0.0.RC1 | 
 
 ### Java Applications
 
