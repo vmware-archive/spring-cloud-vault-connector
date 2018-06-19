@@ -12,7 +12,7 @@ Add the Maven dependency:
 <dependency>
   <groupId>io.pivotal.spring.cloud</groupId>
   <artifactId>spring-cloud-vault-spring-connector</artifactId>
-  <version>${version}.M1</version>
+  <version>${version}.RELEASE</version>
 </dependency>
 ```
 
@@ -34,10 +34,10 @@ If you'd rather like the latest snapshots of the upcoming major version, use our
 
 ### Compatibility matrix
 
-Component | Version |
---- | --- |
-Spring Vault  | 2.x | 
-Spring Cloud Vault  | 2.0.0.RC1 | 
+Component           | Version       |
+------------------- | ------------- |
+Spring Vault        | 2.x           | 
+Spring Cloud Vault  | 2.0.0.RELEASE | 
 
 ### Java Applications
 
