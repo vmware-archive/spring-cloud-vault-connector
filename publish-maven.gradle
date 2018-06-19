@@ -53,6 +53,12 @@ def customizePom(pom, gradleProject) {
 				connection = "scm:git:git://github.com/pivotal-cf/spring-cloud-vault-connector"
 				developerConnection = "scm:git:git://github.com/pivotal-cf/spring-cloud-vault-connector"
 			}
+
+			issueManagement {
+				system = "GitHub"
+				url = "https://github.com/pivotal-cf/spring-cloud-vault-connector"
+			}
+
 			developers {
 				developer {
 					id = "mp911de"
