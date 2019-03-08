@@ -18,10 +18,10 @@ package io.pivotal.spring.cloud.vault.config.java;
 import java.util.HashMap;
 import java.util.Map;
 
-import io.pivotal.spring.cloud.vault.service.common.VaultServiceInfo;
-
 import org.springframework.core.env.MapPropertySource;
 import org.springframework.core.env.PropertySource;
+
+import io.pivotal.spring.cloud.vault.service.common.VaultServiceInfo;
 
 /**
  * Overriding property to configure
@@ -30,8 +30,15 @@ import org.springframework.core.env.PropertySource;
  *
  * @author Mark Paluch
  */
-class VaultServiceInfoPropertySourceAdapter extends
+class VaultServiceInfoPropertySourceAdapter extends 
 		ServiceInfoPropertySourceAdapter<VaultServiceInfo> {
+
+	private static final Map<String, Integer> schemeDefaultPort = new HashMap<>();
+
+	static {
+		schemeDefaultPort.put("http", 80);
+		schemeDefaultPort.put("https", 443);
+	}
 
 	/**
 	 * Configure endpoint via property source override.
@@ -45,9 +52,23 @@ class VaultServiceInfoPropertySourceAdapter extends
 		Map<String, Object> properties = new HashMap<String, Object>();
 
 		properties.put("spring.cloud.vault.host", serviceInfo.getHost());
-		properties.put("spring.cloud.vault.port", serviceInfo.getPort());
+		properties.put("spring.cloud.vault.port",
+				getServicePort(serviceInfo.getScheme(), serviceInfo.getPort()));
 		properties.put("spring.cloud.vault.scheme", serviceInfo.getScheme());
 
 		return new MapPropertySource("spring-cloud-vault-connector", properties);
+	}
+
+	private int getServicePort(String scheme, int port) {
+
+		String schemeLowerCase = scheme.toLowerCase();
+		
+		// Check if Port was not specified in Vault address
+		// java.net.URI.getPort() returns -1 in this case
+		if (port == -1 && schemeDefaultPort.containsKey(schemeLowerCase)) {
+			return schemeDefaultPort.get(schemeLowerCase);
+		}
+
+		return port;
 	}
 }
