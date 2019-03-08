@@ -16,6 +16,7 @@
 package io.pivotal.spring.cloud.vault.cloudfoundry;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -49,16 +50,19 @@ public class VaultServiceInfoCreatorUnitTests extends AbstractCloudFoundryConnec
 		// backends: secret, generic
 		// backends_shared: organization, space
 
+		List<String> backends = new ArrayList<>();
+		backends.add("cf/20fffe9d-d8d1-4825-9977-1426840a13db/secret");
+		backends.add("cf/20fffe9d-d8d1-4825-9977-1426840a13dc/secret");
+
 		VaultServiceInfo info = creator.createServiceInfo(serviceData);
 
 		assertThat(info.getPort()).isEqualTo(8200);
 		assertThat(info.getHost()).isEqualTo("192.168.11.11");
 		assertThat(info.getScheme()).isEqualTo("http");
-		assertThat(info.getToken()).isEqualTo(
-				"d6754590-7b1a-3f36-5260-5bc68e27d95c".toCharArray());
+		assertThat(info.getToken())
+				.isEqualTo("d6754590-7b1a-3f36-5260-5bc68e27d95c".toCharArray());
 
-		assertThat(info.getBackends()).hasSize(2).containsEntry("generic",
-				"cf/20fffe9d-d8d1-4825-9977-1426840a13db/secret");
+		assertThat(info.getBackends()).hasSize(2).containsEntry("generic", backends);
 
 		assertThat(info.getSharedBackends()).hasSize(2).containsEntry("organization",
 				"cf/1a558498-59ad-488c-b395-8b983aacb7da/secret");

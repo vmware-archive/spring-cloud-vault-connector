@@ -16,6 +16,7 @@
 package io.pivotal.spring.cloud.vault.cloudfoundry;
 
 import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 
 import io.pivotal.spring.cloud.vault.service.common.VaultServiceInfo;
@@ -43,7 +44,8 @@ public class VaultServiceInfoCreator extends
 
 		Map<String, Object> credentials = getCredentials(serviceData);
 		Map<String, Object> auth = (Map<String, Object>) credentials.get("auth");
-		Map<String, String> backends = (Map<String, String>) credentials.get("backends");
+		Map<String, List<String>> backends = (Map<String, List<String>>) credentials
+				.get("backends");
 		Map<String, String> sharedBackends = (Map<String, String>) credentials
 				.get("backends_shared");
 

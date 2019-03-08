@@ -15,10 +15,11 @@
  */
 package io.pivotal.spring.cloud.vault.service.common;
 
+import java.util.List;
 import java.util.Map;
 
-import org.springframework.cloud.service.UriBasedServiceInfo;
 import org.springframework.cloud.service.ServiceInfo.ServiceLabel;
+import org.springframework.cloud.service.UriBasedServiceInfo;
 
 /**
  * Information to access Vault services
@@ -30,12 +31,12 @@ public class VaultServiceInfo extends UriBasedServiceInfo {
 
 	private final char[] token;
 
-	private final Map<String, String> backends;
+	private final Map<String, List<String>> backends;
 
 	private final Map<String, String> sharedBackends;
 
 	public VaultServiceInfo(String id, String address, char[] token,
-			Map<String, String> backends, Map<String, String> sharedBackends) {
+			Map<String, List<String>> backends, Map<String, String> sharedBackends) {
 
 		super(id, address);
 
@@ -49,7 +50,7 @@ public class VaultServiceInfo extends UriBasedServiceInfo {
 		return token;
 	}
 
-	public Map<String, String> getBackends() {
+	public Map<String, List<String>> getBackends() {
 		return backends;
 	}
 

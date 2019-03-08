@@ -19,6 +19,9 @@ import io.pivotal.spring.cloud.vault.localconfig.VaultServiceInfoCreator;
 import io.pivotal.spring.cloud.vault.service.common.VaultServiceInfo;
 import org.junit.Test;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.cloud.service.UriBasedServiceData;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -56,11 +59,14 @@ public class VaultServiceInfoCreatorUnitTests {
 						"my-vault-service",
 						"http://localhost:10334/?token=foo&backend.transit=cf/transit&shared_backend.generic=cf/secret");
 
+		List<String> backendList = new ArrayList<>();
+		backendList.add("cf/transit");
+
 		assertThat(serviceInfo.getHost()).isEqualTo("localhost");
 		assertThat(serviceInfo.getPort()).isEqualTo(10334);
 		assertThat(serviceInfo.getToken()).isEqualTo("foo".toCharArray());
 		assertThat(serviceInfo.getBackends()).hasSize(1).containsEntry("transit",
-				"cf/transit");
+				backendList);
 		assertThat(serviceInfo.getSharedBackends()).hasSize(1).containsEntry("generic",
 				"cf/secret");
 	}

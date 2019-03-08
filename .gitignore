@@ -8,10 +8,11 @@ build
 Servers
 .gradle
 _site
-/bin
+*/bin
 .idea
 *.iml
 *.ipr
 *.iws
 classes/
+.DS_Store
 

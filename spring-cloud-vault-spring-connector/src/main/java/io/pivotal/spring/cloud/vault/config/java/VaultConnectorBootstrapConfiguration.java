@@ -46,7 +46,7 @@ import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.core.env.Environment;
 import org.springframework.core.type.AnnotatedTypeMetadata;
-import org.springframework.util.StringUtils;
+import org.springframework.util.CollectionUtils;
 import org.springframework.vault.authentication.ClientAuthentication;
 import org.springframework.vault.authentication.TokenAuthentication;
 import org.springframework.vault.core.VaultOperations;
@@ -128,18 +128,21 @@ public class VaultConnectorBootstrapConfiguration {
 
 		for (String cloudBackend : order) {
 
-			String backend = getBackend(cloudBackend, vaultServiceInfo);
+			List<String> backendList = getBackend(cloudBackend, vaultServiceInfo);
 
-			List<String> contexts = GenericSecretBackendMetadata.buildContexts(
-					genericBackendProperties, activeProfiles);
-
-			if (StringUtils.isEmpty(backend)) {
-				throw new IllegalArgumentException(String.format(
-						"Cannot resolve backend for %s", cloudBackend));
+			if (CollectionUtils.isEmpty(backendList)) {
+				throw new IllegalArgumentException(
+						String.format("Cannot resolve backend for %s", cloudBackend));
 			}
 
-			for (String context : contexts) {
-				backends.add(GenericSecretBackendMetadata.create(backend, context));
+			for (String backend : backendList) {
+
+				List<String> contexts = GenericSecretBackendMetadata
+						.buildContexts(genericBackendProperties, activeProfiles);
+
+				for (String context : contexts) {
+					backends.add(GenericSecretBackendMetadata.create(backend, context));
+				}
 			}
 		}
 
@@ -156,7 +159,7 @@ public class VaultConnectorBootstrapConfiguration {
 		return backends;
 	}
 
-	private static List<String> getDefault(Map<String, String> map) {
+	private static List<String> getDefault(Map<String, ?> map) {
 
 		List<String> backends = new ArrayList<String>();
 
@@ -175,13 +178,20 @@ public class VaultConnectorBootstrapConfiguration {
 		return backends;
 	}
 
-	private static String getBackend(String cloudBackend, VaultServiceInfo serviceInfo) {
+	private static List<String> getBackend(String cloudBackend,
+			VaultServiceInfo serviceInfo) {
 
 		if (serviceInfo.getBackends().containsKey(cloudBackend)) {
 			return serviceInfo.getBackends().get(cloudBackend);
 		}
 
-		return serviceInfo.getSharedBackends().get(cloudBackend);
+		if (serviceInfo.getSharedBackends().containsKey(cloudBackend)) {
+			List<String> sharedBackend = new ArrayList<>();
+			sharedBackend.add(serviceInfo.getSharedBackends().get(cloudBackend));
+			return sharedBackend;
+		}
+
+		return null;
 	}
 
 	static class OnSingleVaultServiceCondition extends SpringBootCondition implements

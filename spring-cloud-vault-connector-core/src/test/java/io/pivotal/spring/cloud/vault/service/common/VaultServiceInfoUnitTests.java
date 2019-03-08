@@ -15,7 +15,9 @@
  */
 package io.pivotal.spring.cloud.vault.service.common;
 
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 import org.junit.Test;
 
@@ -31,11 +33,13 @@ public class VaultServiceInfoUnitTests {
 	@Test
 	public void shouldConfigureFromUri() {
 
+		List<String> backends = new ArrayList<>();
+		backends.add("cf/20fffe9d-d8d1-4825-9977-1426840a13db/transit");
+		backends.add("cf/20fffe9d-d8d1-4825-9977-1426840a13dc/transit");
+
 		VaultServiceInfo info = new VaultServiceInfo("vault",
 				"http://192.168.11.11:8200/", "foo".toCharArray(),
-				Collections.singletonMap("transit",
-						"cf/20fffe9d-d8d1-4825-9977-1426840a13db/transit"),
-				Collections.emptyMap());
+				Collections.singletonMap("transit", backends), Collections.emptyMap());
 
 		assertThat(info.getToken()).isEqualTo("foo".toCharArray());
 
@@ -43,8 +47,7 @@ public class VaultServiceInfoUnitTests {
 		assertThat(info.getPort()).isEqualTo(8200);
 		assertThat(info.getScheme()).isEqualTo("http");
 
-		assertThat(info.getBackends()).containsEntry("transit",
-				"cf/20fffe9d-d8d1-4825-9977-1426840a13db/transit");
+		assertThat(info.getBackends()).containsEntry("transit", backends);
 
 	}
 }
