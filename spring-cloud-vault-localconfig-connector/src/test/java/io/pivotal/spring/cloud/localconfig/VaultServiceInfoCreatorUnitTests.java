@@ -15,6 +15,9 @@
  */
 package io.pivotal.spring.cloud.localconfig;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import io.pivotal.spring.cloud.vault.localconfig.VaultServiceInfoCreator;
 import io.pivotal.spring.cloud.vault.service.common.VaultServiceInfo;
 import org.junit.Test;
