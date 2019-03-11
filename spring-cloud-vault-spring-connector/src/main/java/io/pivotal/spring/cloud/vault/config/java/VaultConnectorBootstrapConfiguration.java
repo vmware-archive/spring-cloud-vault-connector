@@ -1,15 +1,17 @@
 /*
  * Copyright 2017 the original author or authors.
  *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
- * in compliance with the License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *      http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software distributed under the License
- * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
- * or implied. See the License for the specific language governing permissions and limitations under
- * the License.
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package io.pivotal.spring.cloud.vault.config.java;
 
@@ -17,6 +19,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+
+import io.pivotal.spring.cloud.vault.config.java.VaultConnectorBootstrapConfiguration.OnSingleVaultServiceCondition;
+import io.pivotal.spring.cloud.vault.service.common.VaultServiceInfo;
+
 import org.springframework.boot.autoconfigure.condition.ConditionOutcome;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -44,12 +50,11 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.vault.authentication.ClientAuthentication;
 import org.springframework.vault.authentication.TokenAuthentication;
 import org.springframework.vault.core.VaultOperations;
-import io.pivotal.spring.cloud.vault.config.java.VaultConnectorBootstrapConfiguration.OnSingleVaultServiceCondition;
-import io.pivotal.spring.cloud.vault.service.common.VaultServiceInfo;
 
 /**
- * Bootstrap configuration for the Vault connector. Configures {@link ClientAuthentication} and a
- * {@link VaultConnectorConfigurer} for generic backend access.
+ * Bootstrap configuration for the Vault connector. Configures
+ * {@link ClientAuthentication} and a {@link VaultConnectorConfigurer} for generic backend
+ * access.
  * <p>
  * Defaults to {@code generic}, {@code space} and {@code organization} generic backends if
  * {@link VaultConnectorGenericBackendProperties#backends} is not configured.
@@ -58,8 +63,8 @@ import io.pivotal.spring.cloud.vault.service.common.VaultServiceInfo;
  */
 @Configuration
 @ConditionalOnProperty(name = "spring.cloud.vault.enabled", matchIfMissing = true)
-@EnableConfigurationProperties({VaultGenericBackendProperties.class,
-        VaultConnectorGenericBackendProperties.class})
+@EnableConfigurationProperties({ VaultGenericBackendProperties.class,
+		VaultConnectorGenericBackendProperties.class })
 @ConditionalOnClass(VaultBootstrapConfiguration.class)
 @Conditional(OnSingleVaultServiceCondition.class)
 @Order(Ordered.LOWEST_PRECEDENCE - 100)
@@ -74,9 +79,9 @@ public class VaultConnectorBootstrapConfiguration {
 	private final VaultServiceInfo vaultServiceInfo;
 
 	public VaultConnectorBootstrapConfiguration(
-	        VaultConnectorGenericBackendProperties connectorVaultProperties,
-	        VaultGenericBackendProperties genericBackendProperties,
-	        Environment environment) {
+			VaultConnectorGenericBackendProperties connectorVaultProperties,
+			VaultGenericBackendProperties genericBackendProperties,
+			Environment environment) {
 
 		this.connectorVaultProperties = connectorVaultProperties;
 		this.genericBackendProperties = genericBackendProperties;
@@ -93,7 +98,8 @@ public class VaultConnectorBootstrapConfiguration {
 			if (serviceInfos.size() == 1) {
 				vaultServiceInfo = (VaultServiceInfo) serviceInfos.get(0);
 			}
-		} catch (CloudException e) {
+		}
+		catch (CloudException e) {
 			// not running in a Cloud environment
 		}
 
@@ -116,7 +122,7 @@ public class VaultConnectorBootstrapConfiguration {
 		List<String> order = connectorVaultProperties.getBackends();
 
 		if (order.size() == 1
-		        && order.contains(VaultConnectorGenericBackendProperties.DEFAULT)) {
+				&& order.contains(VaultConnectorGenericBackendProperties.DEFAULT)) {
 			order = getDefaultOrder(vaultServiceInfo);
 		}
 
@@ -125,14 +131,14 @@ public class VaultConnectorBootstrapConfiguration {
 			List<String> backendList = getBackend(cloudBackend, vaultServiceInfo);
 
 			if (CollectionUtils.isEmpty(backendList)) {
-				throw new IllegalArgumentException(String.format(
-				        "Cannot resolve backend for %s", cloudBackend));
+				throw new IllegalArgumentException(
+						String.format("Cannot resolve backend for %s", cloudBackend));
 			}
 
 			for (String backend : backendList) {
 
-				List<String> contexts = GenericSecretBackendMetadata.buildContexts(
-				        genericBackendProperties, activeProfiles);
+				List<String> contexts = GenericSecretBackendMetadata
+						.buildContexts(genericBackendProperties, activeProfiles);
 
 				for (String context : contexts) {
 					backends.add(GenericSecretBackendMetadata.create(backend, context));
@@ -172,7 +178,8 @@ public class VaultConnectorBootstrapConfiguration {
 		return backends;
 	}
 
-	private static List<String> getBackend(String cloudBackend, VaultServiceInfo serviceInfo) {
+	private static List<String> getBackend(String cloudBackend,
+			VaultServiceInfo serviceInfo) {
 
 		if (serviceInfo.getBackends().containsKey(cloudBackend)) {
 			return serviceInfo.getBackends().get(cloudBackend);
@@ -188,11 +195,11 @@ public class VaultConnectorBootstrapConfiguration {
 	}
 
 	static class OnSingleVaultServiceCondition extends SpringBootCondition implements
-	        ConfigurationCondition {
+			ConfigurationCondition {
 
 		@Override
 		public ConditionOutcome getMatchOutcome(ConditionContext context,
-		        AnnotatedTypeMetadata metadata) {
+				AnnotatedTypeMetadata metadata) {
 
 			CloudFactory cloudFactory = new CloudFactory();
 			try {
@@ -202,12 +209,13 @@ public class VaultConnectorBootstrapConfiguration {
 				for (ServiceInfo serviceInfo : serviceInfos) {
 					if (serviceInfo instanceof VaultServiceInfo) {
 						return ConditionOutcome.match(String.format(
-						        "Found Vault service %s", serviceInfo.getId()));
+								"Found Vault service %s", serviceInfo.getId()));
 					}
 				}
 
 				return ConditionOutcome.noMatch("No Vault service found");
-			} catch (CloudException e) {
+			}
+			catch (CloudException e) {
 				return ConditionOutcome.noMatch("Not running in a Cloud");
 			}
 		}
