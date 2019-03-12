@@ -32,6 +32,7 @@ import static org.assertj.core.api.Assertions.assertThat;
  * Unit tests for {@link VaultServiceInfoCreator}.
  *
  * @author Mark Paluch
+ * @author Vasyl Zhabko
  */
 public class VaultServiceInfoCreatorUnitTests extends AbstractCloudFoundryConnectorTest {
 
@@ -40,7 +41,21 @@ public class VaultServiceInfoCreatorUnitTests extends AbstractCloudFoundryConnec
 	ObjectMapper mapper = new ObjectMapper();
 
 	@Test
-	public void shouldCreateServiceInfo() throws IOException {
+	public void shouldCreateServiceInfoWithSingleBackend() throws IOException {
+
+		Map services = readServiceData("test-vault-service-single.json");
+		Map<String, Object> serviceData = getServiceData(services, "hashicorp-vault");
+
+		List<String> backends = new ArrayList<>();
+		backends.add("cf/20fffe9d-d8d1-4825-9977-1426840a13db/secret");
+
+		VaultServiceInfo info = creator.createServiceInfo(serviceData);
+
+		assertThat(info.getBackends()).hasSize(2).containsEntry("generic", backends);
+	}
+
+	@Test
+	public void shouldCreateServiceInfoWithMultipleBackends() throws IOException {
 
 		Map services = readServiceData("test-vault-service.json");
 		Map<String, Object> serviceData = getServiceData(services, "hashicorp-vault");
@@ -59,8 +74,8 @@ public class VaultServiceInfoCreatorUnitTests extends AbstractCloudFoundryConnec
 		assertThat(info.getPort()).isEqualTo(8200);
 		assertThat(info.getHost()).isEqualTo("192.168.11.11");
 		assertThat(info.getScheme()).isEqualTo("http");
-		assertThat(info.getToken())
-				.isEqualTo("d6754590-7b1a-3f36-5260-5bc68e27d95c".toCharArray());
+		assertThat(info.getToken()).isEqualTo(
+				"d6754590-7b1a-3f36-5260-5bc68e27d95c".toCharArray());
 
 		assertThat(info.getBackends()).hasSize(2).containsEntry("generic", backends);
 
