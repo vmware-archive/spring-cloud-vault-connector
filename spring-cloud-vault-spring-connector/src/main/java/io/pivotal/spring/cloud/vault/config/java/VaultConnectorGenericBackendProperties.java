@@ -19,15 +19,13 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import lombok.Data;
-
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.util.ObjectUtils;
 
 /**
  * @author Mark Paluch
  */
 @ConfigurationProperties("spring.cloud.vault.generic")
-@Data
 public class VaultConnectorGenericBackendProperties {
 
 	public final static String DEFAULT = "__DEFAULT__";
@@ -36,4 +34,31 @@ public class VaultConnectorGenericBackendProperties {
 	 * Names of dedicated and shared backends to use as property sources.
 	 */
 	private List<String> backends = new ArrayList<String>(Collections.singleton(DEFAULT));
+
+	public VaultConnectorGenericBackendProperties() {
+	}
+
+	public List<String> getBackends() {
+		return this.backends;
+	}
+
+	public void setBackends(List<String> backends) {
+		this.backends = backends;
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		return ObjectUtils.nullSafeEquals(this, o);
+	}
+
+	@Override
+	public int hashCode() {
+		return ObjectUtils.nullSafeHashCode(this);
+	}
+
+	@Override
+	public String toString() {
+		return "VaultConnectorGenericBackendProperties(backends=" + this.getBackends()
+				+ ")";
+	}
 }

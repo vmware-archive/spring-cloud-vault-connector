@@ -185,7 +185,6 @@ project(':spring-cloud-vault-spring-connector') {
 		optional("org.springframework.vault:spring-vault-core:$springVaultVersion")
 		optional("org.springframework.cloud:spring-cloud-vault-config:$springCloudVaultVersion")
 		optional("org.springframework.boot:spring-boot")
-		optional("org.projectlombok:lombok")
 		testCompile("org.springframework.boot:spring-boot-starter-test")
 		testCompile("org.springframework.cloud:spring-cloud-connectors-core:$springCloudConnectorsVersion:tests")
 		testCompile("org.springframework.cloud:spring-cloud-cloudfoundry-connector:$springCloudConnectorsVersion")
@@ -201,8 +200,4 @@ project(':spring-cloud-vault-localconfig-connector') {
 		compile("org.springframework.vault:spring-vault-core:$springVaultVersion")
 		compile("org.springframework.cloud:spring-cloud-localconfig-connector:$springCloudConnectorsVersion")
 	}
-}
-
-task wrapper(type: Wrapper) {
-	gradleVersion = '3.5'
 }
