@@ -60,7 +60,7 @@ public class VaultServiceInfoCreatorUnitTests extends AbstractCloudFoundryConnec
 		Map services = readServiceData("test-vault-service.json");
 		Map<String, Object> serviceData = getServiceData(services, "hashicorp-vault");
 
-		// address: http://192.168.11.11:8200/
+		// address: https://192.168.11.11:8200/
 		// auth.token: d6754590-7b1a-3f36-5260-5bc68e27d95c
 		// backends: secret, generic
 		// backends_shared: organization, space

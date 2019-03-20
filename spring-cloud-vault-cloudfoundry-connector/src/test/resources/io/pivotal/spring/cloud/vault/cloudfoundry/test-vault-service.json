@@ -2,7 +2,7 @@
   "hashicorp-vault": [
 	{
 	  "credentials": {
-		"address": "http://192.168.11.11:8200/",
+		"address": "https://192.168.11.11:8200/",
 		"auth": {
 		  "accessor": "4418eac7-04e2-e5f2-aa26-78945a64fec6",
 		  "token": "d6754590-7b1a-3f36-5260-5bc68e27d95c"
