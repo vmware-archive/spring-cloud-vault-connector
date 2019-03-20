@@ -39,7 +39,7 @@ public class VaultServiceInfoUnitTests {
 		backends.add("cf/20fffe9d-d8d1-4825-9977-1426840a13dc/transit");
 
 		VaultServiceInfo info = new VaultServiceInfo("vault",
-				"http://192.168.11.11:8200/", "foo".toCharArray(),
+				"https://192.168.11.11:8200/", "foo".toCharArray(),
 				Collections.singletonMap("transit", backends), Collections.emptyMap());
 
 		assertThat(info.getToken()).isEqualTo("foo".toCharArray());
