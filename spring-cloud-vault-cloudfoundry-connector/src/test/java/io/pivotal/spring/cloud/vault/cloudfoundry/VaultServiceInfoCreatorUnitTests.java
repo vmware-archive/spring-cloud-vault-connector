@@ -53,7 +53,7 @@ public class VaultServiceInfoCreatorUnitTests extends AbstractCloudFoundryConnec
 
 		assertThat(info.getPort()).isEqualTo(8200);
 		assertThat(info.getHost()).isEqualTo("192.168.11.11");
-		assertThat(info.getScheme()).isEqualTo("http");
+		assertThat(info.getScheme()).isEqualTo("https");
 		assertThat(info.getToken()).isEqualTo(
 				"d6754590-7b1a-3f36-5260-5bc68e27d95c".toCharArray());
 
