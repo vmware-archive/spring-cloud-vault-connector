@@ -21,7 +21,7 @@ http://localhost:8200?token=my-token&backend.generic=cf/secret&backend.transit=c
 ```
 
 The Spring Cloud localconfig connector documentation quick start, at:
-http://cloud.spring.io/spring-cloud-connectors/spring-cloud-connectors.html#_local_configuration_connector
+https://cloud.spring.io/spring-cloud-connectors/spring-cloud-connectors.html#_local_configuration_connector
 
 With the Vault localconfig connector, you can do the same for Vault, like so:
 
