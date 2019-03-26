@@ -33,8 +33,8 @@ import org.springframework.core.env.PropertySource;
  * @author Will Tran
  * @author Mark Paluch
  * @see <a href=
- * "http://docs.spring.io/spring-boot/docs/current/reference/html/boot-features-external-config.html#boot-features-external-config">
- * http://docs.spring.io/spring-boot/docs/current/reference/html/boot-features-external-config.html#boot-features-external-config</a>
+ * "https://docs.spring.io/spring-boot/docs/current/reference/html/boot-features-external-config.html#boot-features-external-config">
+ * https://docs.spring.io/spring-boot/docs/current/reference/html/boot-features-external-config.html#boot-features-external-config</a>
  */
 abstract class ServiceInfoPropertySourceAdapter<T extends ServiceInfo> implements
 		ApplicationListener<ApplicationEnvironmentPreparedEvent>, Ordered {
