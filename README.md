@@ -28,7 +28,7 @@ If you'd rather like the latest snapshots of the upcoming major version, use our
 <repository>
   <id>spring-libs-snapshot</id>
   <name>Spring Snapshot Repository</name>
-  <url>http://repo.spring.io/libs-snapshot</url>
+  <url>https://repo.spring.io/libs-snapshot</url>
 </repository>
 ```
 
