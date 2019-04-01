@@ -47,10 +47,6 @@ import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.core.env.Environment;
 import org.springframework.core.type.AnnotatedTypeMetadata;
-<<<<<<< HEAD
-import org.springframework.util.CollectionUtils;
-=======
->>>>>>> upstream/master
 import org.springframework.vault.authentication.ClientAuthentication;
 import org.springframework.vault.authentication.TokenAuthentication;
 import org.springframework.vault.core.VaultOperations;
@@ -135,18 +131,6 @@ public class VaultConnectorBootstrapConfiguration {
 
 			List<String> backendList = getBackend(cloudBackend, vaultServiceInfo);
 
-<<<<<<< HEAD
-			if (CollectionUtils.isEmpty(backendList)) {
-				throw new IllegalArgumentException(
-						String.format("Cannot resolve backend for %s", cloudBackend));
-			}
-
-			for (String backend : backendList) {
-
-				List<String> contexts = GenericSecretBackendMetadata
-						.buildContexts(genericBackendProperties, activeProfiles);
-
-=======
 			if (backendList == null) {
 				throw new IllegalArgumentException(String.format(
 						"Cannot resolve backend for %s", cloudBackend));
@@ -156,7 +140,6 @@ public class VaultConnectorBootstrapConfiguration {
 					genericBackendProperties, activeProfiles);
 
 			for (String backend : backendList) {
->>>>>>> upstream/master
 				for (String context : contexts) {
 					backends.add(GenericSecretBackendMetadata.create(backend, context));
 				}
@@ -203,14 +186,8 @@ public class VaultConnectorBootstrapConfiguration {
 		}
 
 		if (serviceInfo.getSharedBackends().containsKey(cloudBackend)) {
-<<<<<<< HEAD
-			List<String> sharedBackend = new ArrayList<>();
-			sharedBackend.add(serviceInfo.getSharedBackends().get(cloudBackend));
-			return sharedBackend;
-=======
 			return Collections.singletonList(serviceInfo.getSharedBackends().get(
 					cloudBackend));
->>>>>>> upstream/master
 		}
 
 		return null;

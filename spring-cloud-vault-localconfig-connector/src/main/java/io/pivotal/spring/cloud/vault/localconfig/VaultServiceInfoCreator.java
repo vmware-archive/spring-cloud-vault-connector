@@ -15,7 +15,6 @@
  */
 package io.pivotal.spring.cloud.vault.localconfig;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -84,16 +83,7 @@ public class VaultServiceInfoCreator extends
 		Map<String, String> sharedBackends = getBackends(queryParams,
 				sharedBackendPattern);
 
-		Map<String, List<String>> backendLists = new HashMap<>();
-
-		for (Entry<String, String> entry : backends.entrySet()) {
-			List<String> list = new ArrayList<>();
-			list.add(entry.getValue());
-
-			backendLists.put(entry.getKey(), list);
-		}
-
-		return new VaultServiceInfo(id, address, token.toCharArray(), backendLists,
+		return new VaultServiceInfo(id, address, token.toCharArray(), backends,
 				sharedBackends);
 	}
 
