@@ -17,8 +17,6 @@ package io.pivotal.spring.cloud.vault.config.java;
 
 import java.util.Collection;
 
-import lombok.RequiredArgsConstructor;
-
 import org.springframework.cloud.vault.config.SecretBackendConfigurer;
 import org.springframework.cloud.vault.config.SecretBackendMetadata;
 import org.springframework.cloud.vault.config.VaultConfigurer;
@@ -29,10 +27,13 @@ import org.springframework.cloud.vault.config.VaultConfigurer;
  *
  * @author Mark Paluch
  */
-@RequiredArgsConstructor
 class VaultConnectorConfigurer implements VaultConfigurer {
 
 	private final Collection<SecretBackendMetadata> backends;
+
+	VaultConnectorConfigurer(Collection<SecretBackendMetadata> backends) {
+		this.backends = backends;
+	}
 
 	@Override
 	public void addSecretBackends(SecretBackendConfigurer configurer) {

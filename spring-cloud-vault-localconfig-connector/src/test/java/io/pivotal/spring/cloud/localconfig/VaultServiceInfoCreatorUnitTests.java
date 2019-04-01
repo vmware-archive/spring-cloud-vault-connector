@@ -30,6 +30,7 @@ import static org.assertj.core.api.Assertions.assertThat;
  * Unit tests for {@link VaultServiceInfoCreator}.
  *
  * @author Mark Paluch
+ * @author Vasyl Zhabko
  */
 public class VaultServiceInfoCreatorUnitTests {
 

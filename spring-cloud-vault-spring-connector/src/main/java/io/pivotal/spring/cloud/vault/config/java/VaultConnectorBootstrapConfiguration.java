@@ -17,6 +17,7 @@ package io.pivotal.spring.cloud.vault.config.java;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -46,7 +47,10 @@ import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.core.env.Environment;
 import org.springframework.core.type.AnnotatedTypeMetadata;
+<<<<<<< HEAD
 import org.springframework.util.CollectionUtils;
+=======
+>>>>>>> upstream/master
 import org.springframework.vault.authentication.ClientAuthentication;
 import org.springframework.vault.authentication.TokenAuthentication;
 import org.springframework.vault.core.VaultOperations;
@@ -60,6 +64,7 @@ import org.springframework.vault.core.VaultOperations;
  * {@link VaultConnectorGenericBackendProperties#backends} is not configured.
  *
  * @author Mark Paluch
+ * @author Vasyl Zhabko
  */
 @Configuration
 @ConditionalOnProperty(name = "spring.cloud.vault.enabled", matchIfMissing = true)
@@ -130,6 +135,7 @@ public class VaultConnectorBootstrapConfiguration {
 
 			List<String> backendList = getBackend(cloudBackend, vaultServiceInfo);
 
+<<<<<<< HEAD
 			if (CollectionUtils.isEmpty(backendList)) {
 				throw new IllegalArgumentException(
 						String.format("Cannot resolve backend for %s", cloudBackend));
@@ -140,6 +146,17 @@ public class VaultConnectorBootstrapConfiguration {
 				List<String> contexts = GenericSecretBackendMetadata
 						.buildContexts(genericBackendProperties, activeProfiles);
 
+=======
+			if (backendList == null) {
+				throw new IllegalArgumentException(String.format(
+						"Cannot resolve backend for %s", cloudBackend));
+			}
+
+			List<String> contexts = GenericSecretBackendMetadata.buildContexts(
+					genericBackendProperties, activeProfiles);
+
+			for (String backend : backendList) {
+>>>>>>> upstream/master
 				for (String context : contexts) {
 					backends.add(GenericSecretBackendMetadata.create(backend, context));
 				}
@@ -186,9 +203,14 @@ public class VaultConnectorBootstrapConfiguration {
 		}
 
 		if (serviceInfo.getSharedBackends().containsKey(cloudBackend)) {
+<<<<<<< HEAD
 			List<String> sharedBackend = new ArrayList<>();
 			sharedBackend.add(serviceInfo.getSharedBackends().get(cloudBackend));
 			return sharedBackend;
+=======
+			return Collections.singletonList(serviceInfo.getSharedBackends().get(
+					cloudBackend));
+>>>>>>> upstream/master
 		}
 
 		return null;

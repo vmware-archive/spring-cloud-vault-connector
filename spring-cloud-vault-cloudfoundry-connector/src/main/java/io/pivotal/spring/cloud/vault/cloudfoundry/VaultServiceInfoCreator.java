@@ -28,6 +28,7 @@ import org.springframework.cloud.cloudfoundry.Tags;
  * Service info creator for Vault services.
  *
  * @author Mark Paluch
+ * @author Vasyl Zhabko
  */
 public class VaultServiceInfoCreator extends
 		CloudFoundryServiceInfoCreator<VaultServiceInfo> {
@@ -44,7 +45,7 @@ public class VaultServiceInfoCreator extends
 
 		Map<String, Object> credentials = getCredentials(serviceData);
 		Map<String, Object> auth = (Map<String, Object>) credentials.get("auth");
-		Map<String, List<String>> backends = (Map<String, List<String>>) credentials
+		Map<String, Object> backends = (Map<String, Object>) credentials
 				.get("backends");
 		Map<String, String> sharedBackends = (Map<String, String>) credentials
 				.get("backends_shared");

@@ -15,16 +15,20 @@
  */
 package io.pivotal.spring.cloud.vault.service.common;
 
+import java.util.Collection;
+import java.util.Collections;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.cloud.service.ServiceInfo.ServiceLabel;
 import org.springframework.cloud.service.UriBasedServiceInfo;
+import org.springframework.cloud.service.ServiceInfo.ServiceLabel;
 
 /**
  * Information to access Vault services
  *
  * @author Mark Paluch
+ * @author Vasyl Zhabko
  */
 @ServiceLabel("vault")
 public class VaultServiceInfo extends UriBasedServiceInfo {
@@ -35,14 +39,26 @@ public class VaultServiceInfo extends UriBasedServiceInfo {
 
 	private final Map<String, String> sharedBackends;
 
+	@SuppressWarnings("unchecked")
 	public VaultServiceInfo(String id, String address, char[] token,
-			Map<String, List<String>> backends, Map<String, String> sharedBackends) {
+			Map<String, ?> backends, Map<String, String> sharedBackends) {
 
 		super(id, address);
 
 		this.token = token;
-		this.backends = backends;
+		this.backends = new LinkedHashMap<>(backends.size());
 		this.sharedBackends = sharedBackends;
+
+		backends.forEach((k, v) -> {
+
+			if (v instanceof Collection) {
+				this.backends.put(k, (List) v);
+			}
+			else {
+				this.backends.put(k, (List) Collections.singletonList(v));
+			}
+		});
+
 	}
 
 	@ServiceProperty(category = "connection")

@@ -27,6 +27,7 @@ import static org.assertj.core.api.Assertions.assertThat;
  * Unit tests for {@link VaultServiceInfo}.
  *
  * @author Mark Paluch
+ * @author Vasyl Zhabko
  */
 public class VaultServiceInfoUnitTests {
 
@@ -48,6 +49,5 @@ public class VaultServiceInfoUnitTests {
 		assertThat(info.getScheme()).isEqualTo("http");
 
 		assertThat(info.getBackends()).containsEntry("transit", backends);
-
 	}
 }
