@@ -118,7 +118,7 @@ public class VaultConnectorBootstrapConfiguration {
 
 		List<String> activeProfiles = Arrays.asList(environment.getActiveProfiles());
 
-		List<SecretBackendMetadata> backends = new ArrayList<SecretBackendMetadata>();
+		List<SecretBackendMetadata> backends = new ArrayList<>();
 
 		List<String> order = connectorVaultProperties.getBackends();
 
@@ -151,7 +151,7 @@ public class VaultConnectorBootstrapConfiguration {
 
 	private static List<String> getDefaultOrder(VaultServiceInfo vaultServiceInfo) {
 
-		List<String> backends = new ArrayList<String>();
+		List<String> backends = new ArrayList<>();
 
 		backends.addAll(getDefault(vaultServiceInfo.getBackends()));
 		backends.addAll(getDefault(vaultServiceInfo.getSharedBackends()));
@@ -161,7 +161,7 @@ public class VaultConnectorBootstrapConfiguration {
 
 	private static List<String> getDefault(Map<String, ?> map) {
 
-		List<String> backends = new ArrayList<String>();
+		List<String> backends = new ArrayList<>();
 
 		if (map.containsKey("generic")) {
 			backends.add("generic");
