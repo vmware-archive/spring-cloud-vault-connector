@@ -1,11 +1,11 @@
 /*
- * Copyright 2017 the original author or authors.
+ * Copyright 2019 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *      https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -15,18 +15,19 @@
  */
 package io.pivotal.spring.cloud.vault.config.java;
 
-import static org.junit.Assert.assertEquals;
-
 import java.util.Collections;
 
+import io.pivotal.spring.cloud.vault.service.common.VaultServiceInfo;
 import org.junit.Test;
+
 import org.springframework.core.env.PropertySource;
 
-import io.pivotal.spring.cloud.vault.service.common.VaultServiceInfo;
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
- * Unit tests for {@link ServiceInfoPropertySourceAdapter}.
+ * Unit tests for {@link VaultServiceInfoPropertySourceAdapter}.
  *
+ * @author Vasyl Zhabko
  * @author Mark Paluch
  */
 public class VaultServiceInfoPropertySourceAdapterUnitTests {
@@ -34,39 +35,34 @@ public class VaultServiceInfoPropertySourceAdapterUnitTests {
 	@Test
 	public void verifyIfPortSetWhenUrlHasNoPortHttp() {
 
-		VaultServiceInfo serviceInfo = new VaultServiceInfo("1", "http://localhost/",
-				"".toCharArray(), Collections.emptyMap(), Collections.emptyMap());
+		PropertySource<?> propertySource = getPropertySource("http://localhost/");
 
-		VaultServiceInfoPropertySourceAdapter adapter = new VaultServiceInfoPropertySourceAdapter();
-
-		PropertySource<?> propertySource = adapter.toPropertySource(serviceInfo);
-
-		assertEquals(80, propertySource.getProperty("spring.cloud.vault.port"));
+		assertThat(propertySource.getProperty("spring.cloud.vault.port")).isEqualTo(80);
 	}
 
 	@Test
 	public void verifyIfPortSetWhenUrlHasNoPortHttps() {
 
-		VaultServiceInfo serviceInfo = new VaultServiceInfo("1", "https://localhost/",
-				"".toCharArray(), Collections.emptyMap(), Collections.emptyMap());
+		PropertySource<?> propertySource = getPropertySource("https://localhost/");
 
-		VaultServiceInfoPropertySourceAdapter adapter = new VaultServiceInfoPropertySourceAdapter();
-
-		PropertySource<?> propertySource = adapter.toPropertySource(serviceInfo);
-
-		assertEquals(443, propertySource.getProperty("spring.cloud.vault.port"));
+		assertThat(propertySource.getProperty("spring.cloud.vault.port")).isEqualTo(443);
 	}
 
 	@Test
 	public void verifyIfPortUnchangedWhenUrlHasPort() {
 
-		VaultServiceInfo serviceInfo = new VaultServiceInfo("1", "http://localhost:8080/",
+		PropertySource<?> propertySource = getPropertySource("http://localhost:8080/");
+
+		assertThat(propertySource.getProperty("spring.cloud.vault.port")).isEqualTo(8080);
+	}
+
+	private static PropertySource<?> getPropertySource(String vaultUrl) {
+
+		VaultServiceInfo serviceInfo = new VaultServiceInfo("1", vaultUrl,
 				"".toCharArray(), Collections.emptyMap(), Collections.emptyMap());
 
 		VaultServiceInfoPropertySourceAdapter adapter = new VaultServiceInfoPropertySourceAdapter();
 
-		PropertySource<?> propertySource = adapter.toPropertySource(serviceInfo);
-
-		assertEquals(8080, propertySource.getProperty("spring.cloud.vault.port"));
+		return adapter.toPropertySource(serviceInfo);
 	}
 }

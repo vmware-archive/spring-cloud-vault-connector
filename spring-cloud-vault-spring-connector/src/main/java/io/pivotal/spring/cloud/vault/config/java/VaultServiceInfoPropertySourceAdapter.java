@@ -18,10 +18,10 @@ package io.pivotal.spring.cloud.vault.config.java;
 import java.util.HashMap;
 import java.util.Map;
 
+import io.pivotal.spring.cloud.vault.service.common.VaultServiceInfo;
+
 import org.springframework.core.env.MapPropertySource;
 import org.springframework.core.env.PropertySource;
-
-import io.pivotal.spring.cloud.vault.service.common.VaultServiceInfo;
 
 /**
  * Overriding property to configure
@@ -29,8 +29,9 @@ import io.pivotal.spring.cloud.vault.service.common.VaultServiceInfo;
  * {@link VaultServiceInfo} property exposure.
  *
  * @author Mark Paluch
+ * @author Vasyl Zhabko
  */
-class VaultServiceInfoPropertySourceAdapter extends 
+class VaultServiceInfoPropertySourceAdapter extends
 		ServiceInfoPropertySourceAdapter<VaultServiceInfo> {
 
 	private static final Map<String, Integer> schemeDefaultPort = new HashMap<>();
@@ -49,7 +50,7 @@ class VaultServiceInfoPropertySourceAdapter extends
 	@Override
 	protected PropertySource<?> toPropertySource(VaultServiceInfo serviceInfo) {
 
-		Map<String, Object> properties = new HashMap<String, Object>();
+		Map<String, Object> properties = new HashMap<>();
 
 		properties.put("spring.cloud.vault.host", serviceInfo.getHost());
 		properties.put("spring.cloud.vault.port",
@@ -59,13 +60,13 @@ class VaultServiceInfoPropertySourceAdapter extends
 		return new MapPropertySource("spring-cloud-vault-connector", properties);
 	}
 
-	private int getServicePort(String scheme, int port) {
+	private static int getServicePort(String scheme, int port) {
 
 		String schemeLowerCase = scheme.toLowerCase();
-		
+
 		// Check if Port was not specified in Vault address
 		// java.net.URI.getPort() returns -1 in this case
-		if (port == -1 && schemeDefaultPort.containsKey(schemeLowerCase)) {
+		if (port <= 0 && schemeDefaultPort.containsKey(schemeLowerCase)) {
 			return schemeDefaultPort.get(schemeLowerCase);
 		}
 

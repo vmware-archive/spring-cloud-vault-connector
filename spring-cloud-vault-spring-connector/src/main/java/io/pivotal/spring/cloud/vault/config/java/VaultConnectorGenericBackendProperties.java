@@ -30,7 +30,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @Data
 public class VaultConnectorGenericBackendProperties {
 
-	public final static String DEFAULT = "__DEFAULT__";
+	public static final String DEFAULT = "__DEFAULT__";
 
 	/**
 	 * Names of dedicated and shared backends to use as property sources.

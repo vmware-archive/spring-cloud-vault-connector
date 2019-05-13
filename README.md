@@ -72,6 +72,8 @@ spring.cloud.vault.generic.backends: generic, space, organization
 
 You can override the configuration by setting the `spring.cloud.vault.generic.backends` property.
 Names specified in `spring.cloud.vault.generic.backends` are attempted to be resolved against
-`shared_backends` and `backends` maps from `VCAP_SERVICES`. 
+`shared_backends` and `backends` maps from `VCAP_SERVICES`.
+
+Supports port-less URL using scheme-specific port defaults. 
 
 
