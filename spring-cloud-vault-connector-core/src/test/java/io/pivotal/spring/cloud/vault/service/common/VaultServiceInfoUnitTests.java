@@ -46,7 +46,7 @@ public class VaultServiceInfoUnitTests {
 
 		assertThat(info.getHost()).isEqualTo("192.168.11.11");
 		assertThat(info.getPort()).isEqualTo(8200);
-		assertThat(info.getScheme()).isEqualTo("http");
+		assertThat(info.getScheme()).isEqualTo("https");
 
 		assertThat(info.getBackends()).containsEntry("transit", backends);
 	}
