@@ -13,10 +13,10 @@ buildscript {
 	}
 
 	ext {
-		springBootVersion = "2.1.9.RELEASE"
-		springVaultVersion = "2.1.3.RELEASE"
-		springCloudVaultVersion = "2.1.3.RELEASE"
-		springCloudConnectorsVersion = "2.0.6.RELEASE"
+		springBootVersion = "2.2.2.RELEASE"
+		springVaultVersion = "2.1.5.RELEASE"
+		springCloudVaultVersion = "2.2.1.RELEASE"
+		springCloudConnectorsVersion = "2.0.7.RELEASE"
 		junitVersion = "4.12"
 		assertjVersion = "3.13.2"
 		mockitoVersion = "2.25.0"
