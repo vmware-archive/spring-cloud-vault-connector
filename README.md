@@ -2,7 +2,7 @@
 
 Spring Cloud Connector for using [HashiCorp's Vault](https://github.com/hashicorp/cf-vault-service-broker) service broker on Cloud Foundry.
 
-NOTE: This project is https://spring.io/blog/2019/02/15/introducing-java-cfenv-a-new-library-for-accessing-cloud-foundry-services[in maintenance mode], in favor of the newer https://github.com/pivotal-cf/java-cfenv[Java CFEnv] project. We will continue to release security-related updates but will not address enhancement requests. 
+NOTE: This project is [in maintenance mode](https://spring.io/blog/2019/02/15/introducing-java-cfenv-a-new-library-for-accessing-cloud-foundry-services), in favor of the newer [Java CFEnv](https://github.com/pivotal-cf/java-cfenv) project. We will continue to release security-related updates but will not address enhancement requests. 
 
 
 ## Quick Start
